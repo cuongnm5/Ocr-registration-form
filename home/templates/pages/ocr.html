@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="en">
+{% load staticfiles %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!------ ------>
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <!------ Include the above in your HEAD tag ---------->
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Mono" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'fonts/icomoon/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/magnific-popup.css' %}">
+    <link rel="stylesheet" href="{% static 'css/jquery-ui.css' %}">
+    <link rel="stylesheet" href="{% static 'css/owl.carousel.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/owl.theme.default.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/bootstrap-datepicker.css' %}">
+    <link rel="stylesheet" href="{% static 'fonts/flaticon/font/flaticon.css' %}">
+    <link rel="stylesheet" href="{% static 'css/aos.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{% static 'css/style2.css' %}">
+    <link rel="stylesheet" href="{% static 'css/range_slide.css' %}">
+</head>
+
+<body>
+    <div class="site-wrap">
+
+        <div class="site-mobile-menu">
+            <div class="site-mobile-menu-header">
+                <div class="site-mobile-menu-close mt-3">
+                    <span class="icon-close2 js-menu-toggle"></span>
+                </div>
+            </div>
+            <div class="site-mobile-menu-body"></div>
+        </div>
+
+        <header class="site-navbar" role="banner">
+            <div class="container-fluid">
+                <div class="row align-items-center">
+                    <div class="col-11 col-xl-2">
+                        <h1 class="mb-0"><a href="http://127.0.0.1:8000/" class="text-white h2 mb-0">PRO<span class="text-primary">PTIT</span> </a></h1>
+                    </div>
+                    <div class="col-12 col-md-10 d-none d-xl-block">
+                        <nav class="site-navigation position-relative text-right" role="navigation">
+                            <ul class="site-menu js-clone-nav mx-auto d-none d-lg-block">
+                                <li class="cta"><a href="http://127.0.0.1:8000/login">Logout</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                    <div class="d-inline-block d-xl-none ml-md-0 mr-auto py-3" style="position: relative; top: 3px;"><a href="#" class="site-menu-toggle js-menu-toggle text-white"><span class="icon-menu h3"></span></a></div>
+                </div>
+            </div>
+    </div>
+
+    </header>
+    <div class="container-fluid content my-7 py-5">
+        <!--- Tiêu đề--->
+        <div class="mt-5 text-center">
+            <h1>OCR-Finance</h1>
+        </div>
+        <!-- Upload Form -->
+        <div class="offset-md-2 col-md-8 my-5">
+            <div class="panel panel-default ">
+                <div class="panel-body ">
+                    <!-- Standar Form -->
+                    <h2 class="text-black text-center">Select files from your computer</h2>
+                    <h3 class="text-black">
+                        <input type="file" id="files" name="files" action="" method="post" enctype="multipart/form-data" id="js-upload-form" style="margin-left: 33%" />
+                    </h3>
+                </div>
+            </div>
+        </div>
+        <!-- Result -->
+        <div>
+            <style>
+                tr,
+                th {
+                    border: 1px solid #999;
+                    padding: 2rem;
+                }
+            </style>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th class="text-center" scope="col">
+                            <h2>Image</h2>
+                        </th>
+                        <style>
+                            /* Create three equal columns that floats next to each other */
+                            
+                            .column {
+                                float: left;
+                                width: 100%;
+                                padding: 10px;
+                                /* Should be removed. Only for demonstration */
+                            }
+                            /* Clear floats after the columns */
+                            
+                            .row:after {
+                                content: "";
+                                display: table;
+                                clear: both;
+                            }
+                        </style>
+                        <th class="d-none d-md-table-cell text-center" scope="col">
+                            <div class="row">
+                                <div class="column">
+                                    <a href="#" onclick="openNav('result')">
+                                        <h2>kết quả</h2>
+                                    </a>
+                                </div>
+
+                            </div>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <h3 class="text-black text-center" id='images'> </h3>
+                        </td>
+                        <td>
+                            <h3 class="text-black text-center">
+                                <div id="result" class="w3-container city">
+                                    test
+                                </div>
+                            </h3>
+                        </td>
+                    </tr>
+                </tbody>
+                </div>
+                <!-- End result-->
+
+                <script>
+                    var elem = document.querySelector('input[type="range"]');
+
+                    var rangeValue = function() {
+                        var newValue = elem.value;
+                        var target = document.querySelector('.value');
+                        target.innerHTML = newValue;
+                    }
+
+                    elem.addEventListener("input", rangeValue);
+
+                    function show_img_details(img_path) {
+                        $('#img_detail').attr("src", img_path);
+                        $('#img_detail_modal').modal('toggle');
+                    }
+
+                    function openNav(Name) {
+                        var i;
+                        var x = document.getElementsByClassName("city");
+                        for (i = 0; i < x.length; i++) {
+                            x[i].style.display = "none";
+                        }
+                        document.getElementById(Name).style.display = "block";
+                    }
+                </script>
+                <div id="img_detail_modal" class="modal mt-5" tabindex="-1" role="dialog">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            </div>
+                            <div class="modal-body">
+                                <img id="img_detail" class="img-fluid" src="" alt="" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <script src="{% static 'js/reconnecting-websocket.min.js' %}"></script>
+                <script src="{% static 'js/socket_image.js' %}"></script>
+                <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+                <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.0/js/bootstrap.min.js" integrity="sha384-7aThvCh9TypR7fIc2HV4O/nFMVCBwyIUKL8XCtKE+8xgCgl/PQGuFsvShjr74PBp" crossorigin="anonymous"></script>
+
+        </div>
+        <!-- /container -->
+</body>
+
+</html>
