@@ -52,6 +52,7 @@ function run() {
         var text_data = JSON.parse(responseData.Question);
         console.log(text_data);
         var i = 0;
+        $('#result').append($('<h3><button class="btn btn-lg btn-success" ><i class="glyphicon glyphicon-ok-sign"></i><a href="http://127.0.0.1:8000/demo"> Auto Add</a></button></h3>'))
         for (ans in text_data) {
             i++;
             $('#result').append($('<div class="form-group"><h2><div class="list-group-item "><label for="first_name"><h3>' +
@@ -59,7 +60,7 @@ function run() {
             console.log(text_data[ans]['text']);
         }
         $('#result').append($('<div class="form-group "><div class="form-group "><div class="col-xs-12 "><button class="btn btn-lg btn-success " ><i class="glyphicon glyphicon-ok-sign "></i> Save</button></div></div></div>'));
-
+        $('#result').append($('<h3><button class="btn btn-lg btn-success" ><i class="glyphicon glyphicon-ok-sign"></i><a href="http://127.0.0.1:8000/image_upload"> Download PDF</a></button></h3>'))
     };
 
     $('#result').submit(function() {
@@ -78,7 +79,7 @@ function run() {
         return false;
     });
 
-    socket_info.onmessage = function(e){
+    socket_info.onmessage = function(e) {
         var responseData = JSON.parse(e.data);
         console.log(responseData)
     }
