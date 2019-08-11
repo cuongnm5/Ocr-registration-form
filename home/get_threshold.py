@@ -8,20 +8,23 @@ import json
 
 
 def getParagraph(block):
-    res = []
+    res = None
     paras = block['paragraphs']
     for i in paras:
         para = i
         # print(i['boundingBox'])
-        res.append({'text': getWord(para), 'boundingBox': i['boundingBox']['vertices']})
+        if res == None:
+            res = getWord(para)
+        else:
+            res = res + getWord(para)
     return res
 
 def getWord(para):
-    res = ''
+    res = []
     words = para['words']
     for i in words:
         word = i
-        res += getSym(word) + ' '
+        res.append({'text': getSym(word), 'boundingBox': i['boundingBox']['vertices']})
     return res
 
 def getSym(word):
@@ -127,9 +130,10 @@ def getThresholdCoordinate(img_path):
             miny = int(min(coordinate[0] * ratio, miny))
             maxy = int(max(coordinate[0] * ratio, maxy))
             minx = int(min(coordinate[1] * ratio, minx))
-            maxx = int(max(coordinate[1] * ratio, maxx))
+            maxx = int(max(coordinate[1] * ratio, maxx)) 
         cv2.rectangle(image, (miny, minx), (maxy, maxx), (0, 255, 0), 2)
-        list_threshold.append([[miny, minx], [maxy, maxx]])
+        boundingBox = [{'x': miny, 'y': minx}, {'x': maxy, 'y': minx}, {'x': maxy, 'y': maxx}, {'x': miny, 'y': maxx}]
+        list_threshold.append({'text': None, 'boundingBox': boundingBox})
     return list_threshold
 
 def is_threshold(text_obj, list_threshold):
@@ -142,34 +146,102 @@ def is_threshold(text_obj, list_threshold):
             return thres
     return None
 
+def costume_compare(a, b):
+    boxa_x_mean = (a['boundingBox'][0]['x'] + a['boundingBox'][2]['x']) / 2
+    boxa_y_mean = (a['boundingBox'][0]['y'] + a['boundingBox'][2]['y']) / 2
+    boxb_x_mean = (b['boundingBox'][0]['x'] + b['boundingBox'][2]['x']) / 2
+    boxb_y_mean = (b['boundingBox'][0]['y'] + b['boundingBox'][2]['y']) / 2
+    if (boxa_y_mean - boxb_y_mean > 5):
+        return True
+    if (abs(boxa_y_mean - boxb_y_mean) <= 5 and a['boundingBox'][0]['x'] >= b['boundingBox'][0]['x']):
+        return True
+    return False
+    
+def hsort(words):
+    for i in range(0, len(words) - 1):
+        for j in range(i + 1, len(words)):
+            if costume_compare(words[i], words[j]):
+                words[i], words[j] = words[j], words[i]
+        
+    return words
+
 def getPlaceholderTextAndCoordinate(img_path):
     
     list_threshold = getThresholdCoordinate(img_path)
     api = GoogleAPI()
     ans = api.detect_text(img_path)
     json_res = json.loads(MessageToJson(ans))
-    answer = []
-    # print(json_res['pages'][0]['blocks'])
+    words = list_threshold
     for para in json_res['pages'][0]['blocks']:
-        paras = getParagraph(para)
-        for par in paras:
-            res = is_threshold(par, list_threshold)
-            if (res != None):
-                answer.append({'text': par['text'], 'coordinate': res})
-            # print(getParagraph(par)[0]['text'], ': ', res)
-    # print(json.loads(MessageToJson(ans))['text'])
-    return answer
+        if words == None:
+            words = getParagraph(para)
+        else:
+            words = words + getParagraph(para)
+    sorted_words = hsort(words)
+
+    # for words in sorted_words:
+    #     print(words['text'])
+
+    #get line
+    lines = []
+    thresh = 0
+    for id in range(len(sorted_words) - 1):
+        if id <= thresh:
+            continue
+        line = [sorted_words[id]]
+        while (True):
+            word1_y_mean = (sorted_words[id]['boundingBox'][0]['y'] + sorted_words[id]['boundingBox'][2]['y']) / 2
+            word2_y_mean = (sorted_words[id + 1]['boundingBox'][0]['y'] + sorted_words[id + 1]['boundingBox'][2]['y']) / 2
+            if abs(word1_y_mean - word2_y_mean) < 10:
+                line.append(sorted_words[id + 1])
+                if (id < len(sorted_words) - 2):
+                    id += 1
+                    thresh = id
+                else:
+                    break
+            else:
+                break
+        for l in line:
+            print(l['text'], end = ' ')
+        print('\n')
+        lines.append(line)
+    ans = []
+    for line in lines:
+        for i in range(len(line)):
+            if line[i]['text'] == None:
+                thres = line[i]
+                des_text = ''
+                while i > 0 and line[i - 1]['text'] != None:
+                    i-=1
+                    des_text = line[i]['text'] + ' ' + des_text
+                ans.append({'text': des_text, 'boundingBox': thres['boundingBox']})
+    
+    return ans
+                    
+                
+
+    # answer = []
+    # # print(json_res['pages'][0]['blocks'])
+    # for para in json_res['pages'][0]['blocks']:
+    #     paras = getParagraph(para)
+    #     for par in paras:
+    #         res = is_threshold(par, list_threshold)
+    #         if (res != None):
+    #             answer.append({'text': par['text'], 'coordinate': res})
+    #         # print(getParagraph(par)[0]['text'], ': ', res)
+    # # print(json.loads(MessageToJson(ans))['text'])
+    # return answer
 
 
 if __name__ == '__main__':
     res = getPlaceholderTextAndCoordinate('input2.png')
-    img = cv2.imread('input2.png')
+    # img = cv2.imread('input2.png')
 
-    for q in res:
-        print(q['text'], ':')
-        inp = input()
-        font = cv2.FONT_HERSHEY_SIMPLEX
-        cv2.putText(img, inp, tuple(q['coordinate'][0]), font, 0.5, (0, 0, 0), 1)
+    # for q in res:
+    #     print(q['text'], ':')
+    #     inp = input()
+    #     font = cv2.FONT_HERSHEY_SIMPLEX
+    #     cv2.putText(img, inp, tuple(q['coordinate'][0]), font, 0.5, (0, 0, 0), 1)
 
-    cv2.imshow('img', img)
-    cv2.waitKey(0)
+    # cv2.imshow('img', img)
+    # cv2.waitKey(0)

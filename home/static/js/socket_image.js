@@ -44,7 +44,6 @@ function run() {
     });
 
     socket.onmessage = function(e) {
-        console.log(e);
         var responseData = JSON.parse(e.data);
         var file_name = 'data:image/png;base64,' + responseData.base64;
         $('#images').append($('<div class="clickable_img" onclick="show_img_details(\'' +
@@ -78,6 +77,11 @@ function run() {
 
         return false;
     });
+
+    socket_info.onmessage = function(e){
+        var responseData = JSON.parse(e.data);
+        console.log(responseData)
+    }
 
 };
 run();
