@@ -53,7 +53,7 @@ class InfoConsumer(AsyncJsonWebsocketConsumer):
             inp = value
             font = cv2.FONT_HERSHEY_SIMPLEX
             q = res[i]
-            cv2.putText(img, inp, tuple(q['coordinate'][0]), font, 0.5, (0, 0, 0), 1)
+            cv2.putText(img, inp, tuple([q['boundingBox'][0]['x'], q['boundingBox'][0]['y']]), font, 0.5, (0, 0, 0), 1)
             i+=1
             cv2.imwrite('home/static/images/filled_image.png', img)
         
