@@ -6,8 +6,8 @@ from .google_api import *
 from google.protobuf.json_format import MessageToJson
 import json
 import numpy as np
- 
- 
+
+
 def getParagraph(block):
     res = []
     paras = block['paragraphs']
@@ -16,7 +16,6 @@ def getParagraph(block):
         # print(i['boundingBox'])
         res.append(getWord(para))
     return res
- 
 def getWord(para):
     res = []
     words = para['words']
@@ -24,14 +23,12 @@ def getWord(para):
         word = i
         res.append({'text': getSym(word), 'boundingBox': i['boundingBox']['vertices']})
     return res
- 
 def getSym(word):
     res = ''
     symbols = word['symbols']
     for i in symbols:
         res += i['text']
     return res
- 
 def sort_contours(cnts, method="left-to-right"):
 	# initialize the reverse flag and sort index
 	reverse = False
@@ -54,17 +51,16 @@ def sort_contours(cnts, method="left-to-right"):
  
 	# return the list of sorted contours and bounding boxes
 	return (cnts, boundingBoxes)
- 
 def box_extraction(img_for_box_extraction_path, cropped_dir_path):
     img = cv2.imread(img_for_box_extraction_path, 0)  # Read the image
     (thresh, img_bin) = cv2.threshold(img, 128, 255,
                                     cv2.THRESH_BINARY | cv2.THRESH_OTSU)  # Thresholding the image
     img_bin = 255-img_bin  # Invert the image
     # cv2.imwrite("Image_bin.jpg",img_bin)
- 
+
     # Defining a kernel length
     kernel_length = np.array(img).shape[1]//130
- 
+    
     # A verticle kernel of (1 X kernel_length), which will detect all the verticle lines from the image.
     verticle_kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (1, kernel_length))
     # A horizontal kernel of (kernel_length X 1), which will help to detect all the horizontal line from the image.
@@ -105,9 +101,9 @@ def box_extraction(img_for_box_extraction_path, cropped_dir_path):
         if h > 10:
         # If the box height is greater then 20, widht is >80, then only save it as a box in "cropped/" folder.
             result.append([[x, y], [x+w, y+h]])
- 
+
     return result, checkbox
- 
+
 def contain_text(thres, paragraphs):
     for parass in paragraphs:
         for paras in parass:
@@ -117,7 +113,6 @@ def contain_text(thres, paragraphs):
                     if (thres[0][0] - 10 <= box[0]['x'] and thres[1][0] + 10 >= box[2]['x'] and thres[0][1] - 10 <= box[0]['y'] and thres[1][1] + 10 >= box[2]['y']):
                         return thres
     return None
- 
 def getPlaceholderBoxAndCoordinate(img_path):
     '''Return 2 value is box contain text, and blank box (box that need to add text to'''
     list_threshold, checkbox = box_extraction(img_path, "")
@@ -127,33 +122,32 @@ def getPlaceholderBoxAndCoordinate(img_path):
     answer = []
     #return list of paragraphs
     paragraphs = []
- 
     blank_box = []
     for para in json_res['pages'][0]['blocks']:
         p = getParagraph(para)
         paragraphs.append(p)
- 
+    
     for thres in list_threshold:
         res = contain_text(thres, paragraphs)
         if res != None:
             answer.append(res)
         else:
             blank_box.append(thres)
- 
+
     return answer, blank_box, checkbox
- 
+
 if __name__ == '__main__':
     text_box, blank_box, checkbox = getPlaceholderBoxAndCoordinate('input9.png')
     # print(text_box)
     img = cv2.imread('input9.png')
     for box in text_box:
         cv2.rectangle(img, tuple(box[0]), tuple(box[1]), (0, 255, 0), 2)
- 
+    
     for box in blank_box:
         cv2.rectangle(img, tuple(box[0]), tuple(box[1]), (0, 0, 255), 2)
- 
+
     for box in checkbox:
         cv2.rectangle(img, tuple(box[0]), tuple(box[1]), (0, 255, 255), 2)
- 
+
     cv2.imshow('img', img)
     cv2.waitKey(0)
