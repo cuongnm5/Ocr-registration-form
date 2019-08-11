@@ -128,19 +128,8 @@ function merge_box(boxs) {
         text += boxs[box].text;
         if (box != boxs.length - 1)
             text += ' ';
-
-        // minx = Math.min(box.boundingBox['vertices'][0]['x']);
-        // maxx = Math.max(box.boundingBox['vertices'][3]['x']);
-        // miny = Math.min(box.boundingBox['vertices'][0]['y']);
-        // miny = Math.max(box.boundingBox['vertices'][3]['y']);
     }
 
-    // var new_box = {'vertices': [
-    //   {'x': minx, 'y': miny},
-    //   {'x': maxx, 'y': miny},
-    //   {'x': maxx, 'y': maxy},
-    //   {'x': minx, 'y': maxy}
-    // ]};
     return text;
 }
 // Sửa hàm này !
@@ -207,51 +196,12 @@ function merge_text(w) {
         }
     }
     console.log(res2);
-    // console.log(res);
-    // for (i = 0; i < count; i++) {
-    //   ans.push([]);
-    //   // console.log(...Array(5).keys());
-    //   var num = res[i].length;
-    //   for (k = 0; k < num; k++) {
-    //     if ((res[i][k].charCodeAt(0) >= 48) && (res[i][k].charCodeAt(0) <= 57)) {
-    //       if (k + 1 < res[i].length && k != 0) {
-    //         //Number phase
-    //         var tmp = '';
-    //         var flag = false;
-    //         while (k < res[i].length){
-    //           console.log(tmp);
-    //           tmp += res[i][k];
-    //           if (res[i][k] == '.'){
-    //             tmp += res[i][k + 1];
-    //             break;
-    //           }
-    //         }
-    //       }
-    //     } else {
-    //       var tmp = "";
-    //       while (1) {
-    //         if (k >= res[i].length) {
-    //           break;
-    //         }
-    //         if (res[i][k].charCodeAt(0) >= 48 && res[i][k].charCodeAt(0) <= 57) {
-    //           k--;
-    //           break;
-    //         }
-    //         tmp += res[i][k] + " ";
-    //         k++;
-    //       }
-    //       ans[i].push(tmp);
-    //     }
-    //   }
-    // }
-    // console.log(ans);
     return res2;
 }
 
 
 
 function run() {
-    console.log('fjaioudfjaodhjfauidhfad');
     endpoint = 'ws://' + window.location.host + '/message/';
     console.log(window.location.host)
     var socket = new ReconnectingWebSocket(endpoint);
@@ -289,47 +239,33 @@ function run() {
             file_name + ' \')"> <img width = \"100\" class="img-fluid img-thumbnail" alt=\"Avatar\"src=\"data:image/png; base64, ' +
             responseData.base64 + '\
                     "></div>'));
-        var text_data = JSON.parse(responseData.Text_Description);
-        var blocks = text_data['pages'][0]['blocks'];
-
-        var words = { 'words': [] };
-        for (index in blocks) {
-            var block = blocks[index];
-            words['words'] = words['words'].concat(getParagraph(block)); //bind word from each block together
+        var text_data = JSON.parse(responseData.Question);
+        console.log(text_data)
+        for (ans in text_data) {
+            $('#result').append($('<div class="form-group"><h3><div class="list-group-item "><label for="first_name"><h4>' +
+                text_data[ans]['text'] + '</h4></label><input style="background-color:rgb(63, 54, 78) " type="text" class="form-control" name="input" id="first_name"></div></h3></div>'));
+            console.log(text_data[ans]['text']);
         }
-
-        var res = merge_text(words);
-        var res = getMainPath(res);
-        var tableContent = getTable(res);
-        $('#detail').append($("<table id = 'table-content'></table>"))
-        var table = '<tr><th> Tên sản phẩm </th> <th> Mã sản phẩm </th> <th> Đồng / 1 sản phẩm </th> <th> Số lượng </th> <th> Tổng giá </th> <th> Khuyến mãi </th> </tr>';
-        var total_value = 0;
-        for (i = 0; i < tableContent.length; i++) {
-            table += '<tr>';
-            table += '<th>' + tableContent[i].product_name + '</th>';
-            table += '<th>' + tableContent[i].product_code + '</th>';
-            table += '<th>' + tableContent[i].product_value + '</th>';
-            table += '<th>' + tableContent[i].product_count + '</th>';
-            table += '<th>' + tableContent[i].sum + '</th>';
-            table += '<th>' + tableContent[i].km + '</th>';
-            table += '</tr>';
-            total_value += parseFloat(tableContent[i].product_value) - parseFloat(tableContent[i].km);
-        }
-        console.log(total_value);
-        $('#table-content').append($(table));
-        $('#detail').append($("<p>Tổng cộng: " + String(Math.round(total_value * 1000)) + "</p>"));
+        $('#result').append($('<div class="form-group "><div class="form-group "><div class="col-xs-12 "><button class="btn btn-lg btn-success " ><i class="glyphicon glyphicon-ok-sign "></i> Save</button></div></div></div>'));
 
 
-        // for (i in res.length) {
-
-        //     // word = words['words'][index];
-        //     // $('#result').append($('<li> ' + JSON.stringify(word['boundingBox']['vertices']) + word['text'] + ' </li>'))
-        //     $('#result').append($('<li> ' + res[5][i] + ' </li>'))
-
-        // }
 
     };
 
 
 };
+
+$('#result').submit(function() {
+    // get all the inputs into an array.
+    var $inputs = $('#result :input');
+
+    // not sure if you wanted this, but I thought I'd add it.
+    // get an associative array of just the values.
+    var values = {};
+    console.log(values)
+    $inputs.each(function() {
+        values[this.name] = $(this).val();
+    });
+    console.log(values);
+});
 run();

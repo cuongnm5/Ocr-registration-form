@@ -1,0 +1,8 @@
+imutils
+argparse
+opencv-python
+Pillow
+google-cloud-vision
+fpdf
+img2pdf
+Django
