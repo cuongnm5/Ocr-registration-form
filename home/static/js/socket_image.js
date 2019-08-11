@@ -246,24 +246,26 @@ function run() {
                 text_data[ans]['text'] + '</h4></label><input style="background-color:rgb(63, 54, 78) " type="text" class="form-control" name="input" id="first_name"></div></h3></div>'));
             console.log(text_data[ans]['text']);
         }
-        $('#result').append($('<div class="form-group "><div class="form-group "><div class="col-xs-12 "><button class="btn btn-lg btn-success " type="submit "><i class="glyphicon glyphicon-ok-sign "></i> Save</button></div></div></div>'));
+        $('#result').append($('<div class="form-group "><div class="form-group "><div class="col-xs-12 "><button class="btn btn-lg btn-success " ><i class="glyphicon glyphicon-ok-sign "></i> Save</button></div></div></div>'));
 
-        $('#result').submit(function() {
-            // get all the inputs into an array.
-            var $inputs = $('#result :input');
 
-            // not sure if you wanted this, but I thought I'd add it.
-            // get an associative array of just the values.
-            var values = {};
-            console.log(values)
-            $inputs.each(function() {
-                values[this.name] = $(this).val();
-            });
-            console.log(values)
-        });
 
     };
 
 
 };
+
+$('#result').submit(function() {
+    // get all the inputs into an array.
+    var $inputs = $('#result :input');
+
+    // not sure if you wanted this, but I thought I'd add it.
+    // get an associative array of just the values.
+    var values = {};
+    console.log(values)
+    $inputs.each(function() {
+        values[this.name] = $(this).val();
+    });
+    console.log(values);
+});
 run();

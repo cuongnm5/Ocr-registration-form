@@ -3,8 +3,9 @@
 {% load staticfiles %}
 
 <head>
+    <title>OCR </title>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <!------ ------>
     <link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
@@ -48,21 +49,24 @@
             <div class="container-fluid">
                 <div class="row align-items-center">
                     <div class="col-11 col-xl-2">
-                        <h1 class="mb-0"><a href="http://127.0.0.1:8000/" class="text-white h2 mb-0">PRO<span class="text-primary">PTIT</span> </a></h1>
+                        <h1 class="mb-0"><a href="http://127.0.0.1:8000" class="text-white h2 mb-0">PRO<span class="text-primary">PTIT</span> </a></h1>
                     </div>
                     <div class="col-12 col-md-10 d-none d-xl-block">
                         <nav class="site-navigation position-relative text-right" role="navigation">
                             <ul class="site-menu js-clone-nav mx-auto d-none d-lg-block">
+                                <li>
+                                    <a href="/profile" class="cta"><img width="40" class="img-responsive" src="https://bootdey.com/img/Content/avatar/avatar1.png"></a>
+                                </li>
+
                                 <li class="cta"><a href="http://127.0.0.1:8000/login">Logout</a></li>
                             </ul>
                         </nav>
                     </div>
-                    <div class="d-inline-block d-xl-none ml-md-0 mr-auto py-3" style="position: relative; top: 3px;"><a href="#" class="site-menu-toggle js-menu-toggle text-white"><span class="icon-menu h3"></span></a></div>
+                    <div class="d-inline-block d-xl-none ml-md-0 mr-auto" style="position: relative;"><a href="#" class="site-menu-toggle js-menu-toggle text-white"><span class="icon-menu h3"></span></a></div>
                 </div>
             </div>
-    </div>
-
-    </header>
+        </header>
+        
     <div class="container-fluid content my-7 py-5">
         <!--- Tiêu đề--->
         <div class="mt-5 text-center">
@@ -136,7 +140,7 @@
                                 </div>
                                 <div id="div" class="w3-container city" style="display:none">
                                     <h2>
-                                        <form class="list-group" action="#myform" method="post" id="result">
+                                        <form class="list-group" action="" id="result">
                                             <div class="form-group">
                                                 <h3>
                                                     <div class="list-group-item ">
