@@ -17,14 +17,15 @@ class ImageConsumer(AsyncJsonWebsocketConsumer):
             f.write(img)
         res = getPlaceholderTextAndCoordinate(filename)
 
-        # text_box, blank_box, checkbox = getPlaceholderBoxAndCoordinate(filename)
-        # img = cv2.imread(filename)
-        # i=1
-        # for box in blank_box:
-        #     cv2.rectangle(img, tuple(box[0]), tuple(box[1]), (0, 0, 255), 2)
-        #     cv2.putText(img,str(i), (int((box[0][0]+box[1][0])/2),int((box[0][1]+box[1][1])/2) ), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 0), 2 )
-        #     i+=1
-        # img = cv2.imwrite('result_image.jpg', img)
+        text_box, blank_box, checkbox = getPlaceholderBoxAndCoordinate(filename)
+        img = cv2.imread(filename)
+        i=1
+        for box in blank_box:
+            cv2.rectangle(img, tuple(box[0]), tuple(box[1]), (0, 0, 255), 2)
+            cv2.putText(img,str(i), (int((box[0][0]+box[1][0])/2),int((box[0][1]+box[1][1])/2) ), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 0), 2 )
+            i+=1
+            
+        img = cv2.imwrite('result_image.jpg', img)
         
         # encoded_string = None
         # with open("result_image.jpg", "rb") as image_file:
