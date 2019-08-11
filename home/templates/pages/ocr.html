@@ -66,142 +66,156 @@
                 </div>
             </div>
         </header>
-        
-    <div class="container-fluid content my-7 py-5">
-        <!--- Tiêu đề--->
-        <div class="mt-5 text-center">
-            <h1>OCR-Finance</h1>
-        </div>
-        <!-- Upload Form -->
-        <div class="offset-md-2 col-md-8 my-5">
-            <div class="panel panel-default ">
-                <div class="panel-body ">
-                    <!-- Standar Form -->
-                    <h2 class="text-black text-center">Select files from your computer</h2>
-                    <h3 class="text-black">
-                        <input type="file" id="files" name="files" action="" method="post" enctype="multipart/form-data" id="js-upload-form" style="margin-left: 33%" />
-                    </h3>
+
+        <div class="container-fluid content my-7 py-5">
+            <!--- Tiêu đề--->
+            <div class="mt-5 text-center">
+                <h1>OCR-Finance</h1>
+            </div>
+            <!-- Upload Form -->
+            <div class="offset-md-2 col-md-8 my-5">
+                <div class="panel panel-default ">
+                    <div class="panel-body ">
+                        <!-- Standar Form -->
+                        <h2 class="text-black text-center">Select files from your computer</h2>
+                        <h3 class="text-black">
+                            <input type="file" id="files" name="files" action="" method="post" enctype="multipart/form-data" id="js-upload-form" style="margin-left: 33%" />
+                        </h3>
+                    </div>
                 </div>
             </div>
-        </div>
-        <!-- Result -->
-        <div>
-            <style>
-                tr,
-                th {
-                    border: 1px solid #999;
-                    padding: 2rem;
-                }
-            </style>
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th class="text-center" scope="col">
-                            <h2>Image</h2>
-                        </th>
-                        <style>
-                            /* Create three equal columns that floats next to each other */
-                            
-                            .column {
-                                float: left;
-                                width: 100%;
-                                padding: 10px;
-                                /* Should be removed. Only for demonstration */
+            <!-- Result -->
+            <div>
+                <style>
+                    tr,
+                    th {
+                        border: 1px solid #999;
+                        padding: 2rem;
+                    }
+                </style>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th class="text-center" scope="col">
+                                <h2>Image</h2>
+                            </th>
+                            <style>
+                                /* Create three equal columns that floats next to each other */
+                                
+                                .column {
+                                    float: left;
+                                    width: 100%;
+                                    padding: 10px;
+                                    /* Should be removed. Only for demonstration */
+                                }
+                                /* Clear floats after the columns */
+                                
+                                .row:after {
+                                    content: "";
+                                    display: table;
+                                    clear: both;
+                                }
+                                
+                                input[type='text'] {
+                                    font-size: 24px;
+                                }
+                            </style>
+                            <th class="d-none d-md-table-cell text-center" scope="col">
+                                <div class="row">
+                                    <div class="column">
+                                        <a href="#" onclick="openNav('div')">
+                                            <h2>Result</h2>
+                                        </a>
+                                    </div>
+
+                                </div>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <h3 class="text-black text-center" id='images'> </h3>
+                            </td>
+                            <td>
+                                <h3 class="text-black text-center">
+                                    <div id="detail" class="w3-container city">
+
+                                    </div>
+                                    <div id="div" class="w3-container city" style="display:none">
+                                        <h2>
+                                            <form class="list-group" action="#" id="result">
+                                                {% comment %} <div class="form-group">
+                                                    <h2>
+                                                        <div class="list-group-item ">
+                                                            <label for="first_name">
+                                                                <h3><form action="http://127.0.0.1:8000/demo">
+                                                                    <input type="button" onclick="location.href='http://127.0.0.1:8000/demo';" value="Auto Add" />
+                                                                </form></h3>
+                                                            </label>
+
+                                                    </h2>
+                                                    </div> {% endcomment %}
+                                            </form>
+
+                                        </h2>
+                                        </div>
+                                </h3>
+                            </td>
+                        </tr>
+                    </tbody>
+                    </div>
+                    <!-- End result-->
+
+                    <script>
+                        var elem = document.querySelector('input[type="range"]');
+
+                        var rangeValue = function() {
+                            var newValue = elem.value;
+                            var target = document.querySelector('.value');
+                            target.innerHTML = newValue;
+                        }
+
+                        elem.addEventListener("input", rangeValue);
+
+                        function show_img_details(img_path) {
+                            $('#img_detail').attr("src", img_path);
+                            $('#img_detail_modal').modal('toggle');
+                        }
+
+                        function openNav(Name) {
+                            var i;
+                            var x = document.getElementsByClassName("city");
+                            for (i = 0; i < x.length; i++) {
+                                x[i].style.display = "none";
                             }
-                            /* Clear floats after the columns */
-                            
-                            .row:after {
-                                content: "";
-                                display: table;
-                                clear: both;
-                            }
-                        </style>
-                        <th class="d-none d-md-table-cell text-center" scope="col">
-                            <div class="row">
-                                <div class="column">
-                                    <a href="#" onclick="openNav('div')">
-                                        <h2>Result</h2>
-                                    </a>
-                                </div>
+                            document.getElementById(Name).style.display = "block";
+                        }
+                    </script>
 
-                            </div>
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>
-                            <h3 class="text-black text-center" id='images'> </h3>
-                        </td>
-                        <td>
-                            <h3 class="text-black text-center">
-                                <div id="detail" class="w3-container city">
-
-                                </div>
-                                <div id="div" class="w3-container city" style="display:none">
-                                    <h2>
-                                        <form class="list-group" action="#" id="result">
-                                            
-                                        </form>
-
-                                    </h2>
-                                </div>
-                            </h3>
-                        </td>
-                    </tr>
-                </tbody>
-        </div>
-        <!-- End result-->
-
-        <script>
-            var elem = document.querySelector('input[type="range"]');
-
-            var rangeValue = function() {
-                var newValue = elem.value;
-                var target = document.querySelector('.value');
-                target.innerHTML = newValue;
-            }
-
-            elem.addEventListener("input", rangeValue);
-
-            function show_img_details(img_path) {
-                $('#img_detail').attr("src", img_path);
-                $('#img_detail_modal').modal('toggle');
-            }
-
-            function openNav(Name) {
-                var i;
-                var x = document.getElementsByClassName("city");
-                for (i = 0; i < x.length; i++) {
-                    x[i].style.display = "none";
-                }
-                document.getElementById(Name).style.display = "block";
-            }
-        </script>
-
-        <div id="img_detail_modal" class="modal mt-5" tabindex="-1" role="dialog">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <div id="img_detail_modal" class="modal mt-5" tabindex="-1" role="dialog">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
+                                </div>
+                                <div class="modal-body">
+                                    <img id="img_detail" class="img-fluid" src="" alt="" />
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="modal-body">
-                        <img id="img_detail" class="img-fluid" src="" alt="" />
-                    </div>
-                </div>
+
+                    <script src="{% static 'js/reconnecting-websocket.min.js' %}"></script>
+                    <script src="{% static 'js/socket_image.js' %}"></script>
+                    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+                    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.0/js/bootstrap.min.js" integrity="sha384-7aThvCh9TypR7fIc2HV4O/nFMVCBwyIUKL8XCtKE+8xgCgl/PQGuFsvShjr74PBp" crossorigin="anonymous"></script>
+
             </div>
-        </div>
-
-        <script src="{% static 'js/reconnecting-websocket.min.js' %}"></script>
-        <script src="{% static 'js/socket_image.js' %}"></script>
-        <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.0/js/bootstrap.min.js" integrity="sha384-7aThvCh9TypR7fIc2HV4O/nFMVCBwyIUKL8XCtKE+8xgCgl/PQGuFsvShjr74PBp" crossorigin="anonymous"></script>
-
-    </div>
-    <!-- /container -->
+            <!-- /container -->
 </body>
 
 </html>

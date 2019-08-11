@@ -137,15 +137,16 @@ def getPlaceholderBoxAndCoordinate(img_path):
     return answer, blank_box, checkbox
 
 if __name__ == '__main__':
-    text_box, blank_box, checkbox = getPlaceholderBoxAndCoordinate('input9.png')
+    text_box, blank_box, checkbox = getPlaceholderBoxAndCoordinate('test9.png')
     # print(text_box)
-    img = cv2.imread('input9.png')
+    img = cv2.imread('test9.png')
     for box in text_box:
         cv2.rectangle(img, tuple(box[0]), tuple(box[1]), (0, 255, 0), 2)
-    
+    i=1
     for box in blank_box:
         cv2.rectangle(img, tuple(box[0]), tuple(box[1]), (0, 0, 255), 2)
-
+        cv2.putText(img,str(i), (int((box[0][0]+box[1][0])/2),int((box[0][1]+box[1][1])/2) ), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 0), 2 )
+        i+=1
     for box in checkbox:
         cv2.rectangle(img, tuple(box[0]), tuple(box[1]), (0, 255, 255), 2)
 

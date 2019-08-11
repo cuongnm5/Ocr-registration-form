@@ -9,6 +9,7 @@ urlpatterns = [
     path('select', views.select, name='select'),
     path('ocr', views.ocr, name='ocr'),
     path('profile', views.profile, name='profile'),
+    path('demo', views.demo, name='demo'),
 ]
 
 if settings.DEBUG: 

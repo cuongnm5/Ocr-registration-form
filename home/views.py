@@ -19,3 +19,6 @@ def ocr(request):
 
 def profile(request):
     return render(request, 'pages/profile.html') 
+
+def demo(request):
+    return render(request, 'pages/demo.html') 
