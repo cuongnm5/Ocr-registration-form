@@ -42,4 +42,13 @@ class InfoConsumer(AsyncJsonWebsocketConsumer):
             cv2.putText(img, inp, tuple(q['coordinate'][0]), font, 0.5, (0, 0, 0), 1)
             i+=1
             cv2.imwrite('filled_image.png', img)
+
+        encoded_string = None
+        with open("filled_image.png", "rb") as image_file:
+            encoded_string = base64.b64encode(image_file.read())
+        # print(encoded_string)
+
+        await self.send_json(content = {
+            'imgstring': str(encoded_string),
+        })
         

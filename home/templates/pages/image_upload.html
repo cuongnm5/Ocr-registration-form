@@ -66,339 +66,48 @@
     <div class="container-fluid content my-7 py-5">
         <!--- Tiêu đề--->
         <div class="mt-5 text-center">
-            <h1>OCR-Finance</h1>
+            <h1>OCR</h1>
         </div>
         <!-- Upload Form -->
         <div class="offset-md-2 col-md-8 my-5">
             <div class="panel panel-default ">
                 <div class="panel-body ">
                     <!-- Standar Form -->
-                    <h2 class="text-black text-center">Select files from your computer</h2>
-                    <h3 class="text-black">
-                        <input type="file" id="files" name="files" action="" method="post" enctype="multipart/form-data" id="js-upload-form" style="margin-left: 33%" />
+                    <h2 class="text-black text-center">Điền mẫu báo cáo thành công. Chọn download để tải về file PDF.</h2>
+                    <h3 class="text-black text-center">
+                        <img id="scream" width="220" height="277" src="/home/dodo/WorkSpace/ocr-bedrock/filled_image.png" alt="The Scream">
+
+                        <p>Canvas:</p>
+                        <canvas id="myCanvas" width="240" height="297" style="border:1px solid #d3d3d3;">    </canvas>
+
+                        <button id="download">download</button>
+
+                        <script src="//cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.3/jspdf.min.js"></script>
+                        <script>
+                            var canvas = document.getElementById('myCanvas');
+
+                            // draw a blue cloud
+                            window.onload = function() {
+                                var c = document.getElementById("myCanvas");
+                                var ctx = c.getContext("2d");
+                                var img = document.getElementById("scream");
+                                ctx.drawImage(img, 10, 10);
+                            }
+
+                            download.addEventListener("click", function() {
+                                // only jpeg is supported by jsPDF
+                                var imgData = canvas.toDataURL("image/jpeg", 1.0);
+                                var pdf = new jsPDF();
+
+                                pdf.addImage(imgData, 'JPEG', 0, 0);
+                                pdf.save("download.pdf");
+                            }, false);
+                        </script>
                     </h3>
                 </div>
             </div>
         </div>
         <!-- Result -->
-        <div>
-            <style>
-                tr,
-                th {
-                    border: 1px solid #999;
-                    padding: 2rem;
-                }
-            </style>
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th class="text-center" scope="col">
-                            <h2>Image</h2>
-                        </th>
-                        <style>
-                            /* Create three equal columns that floats next to each other */
-                            
-                            .column {
-                                float: left;
-                                width: 50%;
-                                padding: 10px;
-                                /* Should be removed. Only for demonstration */
-                            }
-                            /* Clear floats after the columns */
-                            
-                            .row:after {
-                                content: "";
-                                display: table;
-                                clear: both;
-                            }
-                        </style>
-                        <th class="d-none d-md-table-cell text-center" scope="col">
-                            <div class="row">
-                                <div class="column">
-                                    <a href="#" onclick="openNav('detail')">
-                                        <h2>Detail</h2>
-                                    </a>
-                                </div>
-                                <div class="column">
-                                    <a href="#" onclick="openNav('div')">
-                                        <h2>Chia tiền</h2>
-                                    </a>
-                                </div>
-
-                            </div>
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>
-                            <h3 class="text-black text-center" id='images'> </h3>
-                        </td>
-                        <td>
-                            <h3 class="text-black text-center">
-                                <div id="detail" class="w3-container city">
-
-                                </div>
-
-                                <div id="div" class="w3-container city" style="display:none">
-                                    <div class="container">
-                                        <div class="row">
-                                            <div class="col-md-8" style="padding:2%">
-                                                <h3>Danh sách bạn bè</h3>
-                                            </div>
-                                            <div class="col-md-4" style="padding:2% ">
-                                                <h3> Số tiền thanh toán </h3>
-                                            </div>
-                                        </div>
-                                        <!--add friend -->
-                                        <style>
-                                            .people-nearby .google-maps {
-                                                background: #f8f8f8;
-                                                border-radius: 4px;
-                                                border: 1px solid #f1f2f2;
-                                                padding: 20px;
-                                                margin-bottom: 20px;
-                                            }
-                                            
-                                            .people-nearby .google-maps .map {
-                                                height: 300px;
-                                                width: 100%;
-                                                border: none;
-                                            }
-                                            
-                                            .people-nearby .nearby-user {
-                                                padding: 20px 0;
-                                                border-top: 1px solid #f1f2f2;
-                                                border-bottom: 1px solid #f1f2f2;
-                                                margin-bottom: 20px;
-                                            }
-                                            
-                                            img.profile-photo-lg {
-                                                height: 80px;
-                                                width: 80px;
-                                                border-radius: 50%;
-                                            }
-                                        </style>
-                                        <div class="row">
-                                            <div class="col-md-8">
-                                                <div class="people-nearby">
-                                                    <div class="nearby-user">
-                                                        <div class="row">
-                                                            <div class="col-md-2 col-sm-2">
-                                                                <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="user" class="profile-photo-lg">
-                                                            </div>
-                                                            <div class="col-md-8 col-sm-8">
-                                                                <h5><a href="#" class="profile-link">Sophia Page</a></h5>
-                                                                <p>Software Engineer</p>
-                                                                <p class="text-muted">500m away</p>
-                                                            </div>
-                                                            <div class="col-md-2 col-sm-2">
-                                                                <button class="btn btn-primary pull-right">Remove</button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="nearby-user">
-                                                        <div class="row ">
-                                                            <div class="col-md-2 col-sm-2">
-                                                                <img src="https://bootdey.com/img/Content/avatar/avatar6.png" alt="user" class="profile-photo-lg">
-                                                            </div>
-                                                            <div class="col-md-8 col-sm-8">
-                                                                <h5><a href="#" class="profile-link">Emma Johnson</a></h5>
-                                                                <p>Model at Fashion</p>
-                                                                <p class="text-muted">800m away</p>
-                                                            </div>
-                                                            <div class="col-md-2 col-sm-2">
-                                                                <button class="btn btn-primary pull-right">Remove</button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="nearby-user">
-                                                        <div class="row">
-                                                            <div class="col-md-2 col-sm-2">
-                                                                <img src="https://bootdey.com/img/Content/avatar/avatar5.png" alt="user" class="profile-photo-lg">
-                                                            </div>
-                                                            <div class="col-md-8 col-sm-8">
-                                                                <h5><a href="#" class="profile-link">Nora Wilson</a></h5>
-                                                                <p>Writer at Newspaper</p>
-                                                                <p class="text-muted">2.5km away</p>
-                                                            </div>
-                                                            <div class="col-md-2 col-sm-2">
-                                                                <button class="btn btn-primary pull-right">Remove</button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="nearby-user">
-                                                        <div class="row">
-                                                            <div class="col-md-2 col-sm-2">
-                                                                <img src="https://bootdey.com/img/Content/avatar/avatar4.png" alt="user" class="profile-photo-lg">
-                                                            </div>
-                                                            <div class="col-md-8 col-sm-8">
-                                                                <h5><a href="#" class="profile-link">Diana Amber</a></h5>
-                                                                <p>Student</p>
-                                                                <p class="text-muted">700m away</p>
-                                                            </div>
-                                                            <div class="col-md-2 col-sm-2">
-                                                                <button class="btn btn-primary pull-right">Remove</button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="nearby-user">
-                                                        <button class="btn btn-primary pull-center">Add more</button>
-                                                    </div>
-
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <div class="people-nearby">
-                                                    <div class="nearby-user">
-                                                        <div class="value">0</div>
-                                                        <input type="range" min="0" max="1000" step="1" value="0">
-                                                    </div>
-                                                </div>
-                                                <div class="people-nearby">
-                                                    <div class="nearby-user">
-                                                        <div class="value">0</div>
-                                                        <input type="range" min="0" max="1000" step="1" value="0">
-                                                    </div>
-                                                </div>
-                                                <div class="people-nearby">
-                                                    <div class="nearby-user">
-                                                        <div class="value">0</div>
-                                                        <input type="range" min="0" max="1000" step="1" value="0">
-                                                    </div>
-                                                </div>
-                                                <div class="people-nearby">
-                                                    <div class="nearby-user">
-                                                        <div class="value">0</div>
-                                                        <input type="range" min="0" max="1000" step="1" value="0">
-                                                    </div>
-                                                </div>
-                                                <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Thanh toán</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!--end Add friend -->
-                                </div>
-
-                                <div id="pay" class="w3-container city" style="display:none">
-                                    <h2>Tokyo</h2>
-                                    <p>Tokyo is the capital of Japan.</p>
-                                </div>
-                            </h3>
-                        </td>
-                    </tr>
-                </tbody>
-        </div>
-        <!-- End result-->
-
-        <script>
-            var elem = document.querySelector('input[type="range"]');
-
-            var rangeValue = function() {
-                var newValue = elem.value;
-                var target = document.querySelector('.value');
-                target.innerHTML = newValue;
-            }
-
-            elem.addEventListener("input", rangeValue);
-
-            function show_img_details(img_path) {
-                $('#img_detail').attr("src", img_path);
-                $('#img_detail_modal').modal('toggle');
-            }
-
-            function openNav(Name) {
-                var i;
-                var x = document.getElementsByClassName("city");
-                for (i = 0; i < x.length; i++) {
-                    x[i].style.display = "none";
-                }
-                document.getElementById(Name).style.display = "block";
-            }
-        </script>
-        <!---dialog -->
-        <div class="modal fade" id="myModal" role="dialog">
-            <div class="modal-dialog">
-                <h3>
-                    <!-- Modal content-->
-                    <div class="modal-content">
-                        <div class="container">
-                            <div class="row">
-                                <div class="">
-                                    <div class="panel panel-default">
-                                        <div class="panel-heading">
-                                            <h3 class="panel-title">
-                                                Payment Details
-                                            </h3>
-                                            <div class="checkbox pull-right">
-                                                <label>
-                                                    <input type="checkbox" />
-                                                    Remember
-                                                </label>
-                                            </div>
-                                        </div>
-                                        <div class="panel-body">
-                                            <form role="form">
-                                                <div class="form-group">
-                                                    <label for="cardNumber">
-                                                    CARD NUMBER</label>
-                                                    <div class="input-group">
-                                                        <input type="text" class="form-control" id="cardNumber" placeholder="Valid Card Number" required autofocus />
-                                                        <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-xs-7 col-md-7">
-                                                        <div class="form-group">
-                                                            <label for="expityMonth">
-                                                            EXPIRY DATE</label>
-                                                            <div class="col-xs-6 col-lg-6 pl-ziro">
-                                                                <input type="text" class="form-control" id="expityMonth" placeholder="MM" required />
-                                                            </div>
-                                                            <div class="col-xs-6 col-lg-6 pl-ziro">
-                                                                <input type="text" class="form-control" id="expityYear" placeholder="YY" required /></div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-xs-5 col-md-5 pull-right">
-                                                        <div class="form-group">
-                                                            <label for="cvCode">
-                                                            CV CODE</label>
-                                                            <input type="password" class="form-control" id="cvCode" placeholder="CV" required />
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
-                                    <ul class="nav nav-pills nav-stacked">
-                                        <li class="active"><a href="#"><span class="badge pull-right"><span class="glyphicon glyphicon-usd"></span>4200</span> Final Payment</a>
-                                        </li>
-                                    </ul>
-                                    <br/>
-                                    <a href="http://www.jquery2dotnet.com" class="btn btn-success btn-lg btn-block" role="button">Pay</a>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                </h3>
-            </div>
-        </div>
-
-        <div id="img_detail_modal" class="modal mt-5" tabindex="-1" role="dialog">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                    </div>
-                    <div class="modal-body">
-                        <img id="img_detail" class="img-fluid" src="" alt="" />
-                    </div>
-                </div>
-            </div>
-        </div>
 
         <script src="{% static 'js/reconnecting-websocket.min.js' %}"></script>
         <script src="{% static 'js/socket_image.js' %}"></script>
@@ -411,24 +120,3 @@
 </body>
 
 </html>
-{% comment %} 
-if (res[i][k + 1].charAt(0) == '.') {
-            if ((k + 2 < res[i].length) && ((res[i][k + 2].charCodeAt(0) >= 48) && (res[i][k + 2].charCodeAt(0) <= 57))) {
-              var tmp = "";
-              tmp += res[i][k] + "";
-              tmp += res[i][k + 1] + "";
-              tmp += res[i][k + 2] + "";
-              ans[i].push(tmp);
-              k += 2;
-            } else {
-              ans[i].push(res[i][k]);
-            }
-          } else if (checkNumber(res[i][k+1]) && k != 0) {
-            ans[i].push(res[i][k] + res[i][k + 1]);
-            k++;
-            continue;
-          }
-          else {
-            ans[i].push(res[i][k]);
-          }
-        } {% endcomment %}

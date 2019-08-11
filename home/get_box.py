@@ -16,7 +16,6 @@ def getParagraph(block):
         # print(i['boundingBox'])
         res.append(getWord(para))
     return res
-
 def getWord(para):
     res = []
     words = para['words']
@@ -24,14 +23,12 @@ def getWord(para):
         word = i
         res.append({'text': getSym(word), 'boundingBox': i['boundingBox']['vertices']})
     return res
-
 def getSym(word):
     res = ''
     symbols = word['symbols']
     for i in symbols:
         res += i['text']
     return res
-
 def sort_contours(cnts, method="left-to-right"):
 	# initialize the reverse flag and sort index
 	reverse = False
@@ -54,7 +51,6 @@ def sort_contours(cnts, method="left-to-right"):
  
 	# return the list of sorted contours and bounding boxes
 	return (cnts, boundingBoxes)
-
 def box_extraction(img_for_box_extraction_path, cropped_dir_path):
     img = cv2.imread(img_for_box_extraction_path, 0)  # Read the image
     (thresh, img_bin) = cv2.threshold(img, 128, 255,
@@ -117,7 +113,6 @@ def contain_text(thres, paragraphs):
                     if (thres[0][0] - 10 <= box[0]['x'] and thres[1][0] + 10 >= box[2]['x'] and thres[0][1] - 10 <= box[0]['y'] and thres[1][1] + 10 >= box[2]['y']):
                         return thres
     return None
-
 def getPlaceholderBoxAndCoordinate(img_path):
     '''Return 2 value is box contain text, and blank box (box that need to add text to'''
     list_threshold, checkbox = box_extraction(img_path, "")
@@ -127,7 +122,6 @@ def getPlaceholderBoxAndCoordinate(img_path):
     answer = []
     #return list of paragraphs
     paragraphs = []
-
     blank_box = []
     for para in json_res['pages'][0]['blocks']:
         p = getParagraph(para)
