@@ -2,7 +2,7 @@
 import argparse
 import imutils
 import cv2
-from google_api import *
+from .google_api import *
 from google.protobuf.json_format import MessageToJson
 import json
 
@@ -71,6 +71,7 @@ class ShapeDetector:
 def getThresholdCoordinate(img_path):
     # construct the argument parse and parse the arguments
     img = cv2.imread(img_path, 0)
+
     # cv2.imshow('img', img)
     # cv2.waitKey(0)
     # Thresholding the image
@@ -142,6 +143,7 @@ def is_threshold(text_obj, list_threshold):
     return None
 
 def getPlaceholderTextAndCoordinate(img_path):
+    
     list_threshold = getThresholdCoordinate(img_path)
     api = GoogleAPI()
     ans = api.detect_text(img_path)
@@ -162,7 +164,7 @@ def getPlaceholderTextAndCoordinate(img_path):
 if __name__ == '__main__':
     res = getPlaceholderTextAndCoordinate('input2.png')
     img = cv2.imread('input2.png')
-    print(res)
+
     for q in res:
         print(q['text'], ':')
         inp = input()
