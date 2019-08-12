@@ -1,3 +1,5 @@
+Team Stampede
+
 #Hướng dẫn sử dụng
 
 Ứng dụng sử dụng để giúp học sinh sinh viên tránh được việc bị nhầm lẫn mỗi khi gây ra sự nhầm lẫn trong việc viết đơn. Ứng dụng sử dụng công nghệ OCR, giúp nhận diên được những vị trí mà sinh viên cần điền và sau đó có thể điền nháp trên máy tính. tránh gây nhầm lẫn không đáng có.
